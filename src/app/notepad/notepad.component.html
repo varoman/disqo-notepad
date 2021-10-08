@@ -1,4 +1,4 @@
-<div class="px-4">
+<div class="px-4 notepad">
     <form>
         <div class="d-flex justify-content-between align-items-end">
             <div class="form-group">
@@ -12,9 +12,12 @@
                 <button type="button" class="btn btn-light border">View Stats</button>
                 <button type="button" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-danger">Delete</button>
-
             </div>
         </div>
-        <app-note></app-note>
+        <div class="mt-3">
+            <p class="secondary-title mb-2">My Notes</p>
+            <app-note></app-note>
+            <app-note-list></app-note-list>
+        </div>
     </form>
 </div>

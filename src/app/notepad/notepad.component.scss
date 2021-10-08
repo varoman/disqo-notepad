@@ -1,6 +1,19 @@
-@import "src/assets/styles/variables";
+@import "variables";
 
 button {
   margin-left: 10px;
   font-size: $button-font-size;
+}
+
+.secondary-title {
+  font-size: $secondary-title-font-size;
+}
+
+label {
+  font-size: $input-label-font-size;
+}
+
+.notepad {
+  padding-bottom: 50px;
+  padding-top: 10px;
 }
