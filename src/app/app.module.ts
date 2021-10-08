@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NotepadComponent } from './Notepad/notepad/notepad.component';
-import { NoteComponent } from './Note/note/note.component';
-import { StatisticsComponent } from './Statistics/statistics/statistics.component';
+import { NotepadComponent } from './notepad/notepad.component';
+import { NoteComponent } from './notepad/note/note.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
