@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatisticsService } from './statistics.service';
 
 @Component({
   selector: 'app-statistics',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private statisticsService: StatisticsService) { }
 
   ngOnInit(): void {
+    this.getGists();
+  }
+
+  private getGists(): void {
+    this.statisticsService.getPublicGists({
+      page: 30,
+      per_page: 100,
+    })
+        .subscribe(res => console.log(res, 'res'))
   }
 
 }

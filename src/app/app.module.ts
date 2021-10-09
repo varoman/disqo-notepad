@@ -9,6 +9,7 @@ import { NoteComponent } from './notepad/note/note.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { NoteListComponent } from './notepad/note-list/note-list.component';
 import { APIInterceptor } from './core/api.interceptor';
+import { ChartComponent } from './statistics/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { APIInterceptor } from './core/api.interceptor';
     NoteComponent,
     StatisticsComponent,
     NoteListComponent,
+    ChartComponent,
   ],
   imports: [
     BrowserModule,
