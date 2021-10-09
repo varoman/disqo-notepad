@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import { ChartService } from './chart.service';
 Chart.register(...registerables);
 
 
@@ -12,15 +16,21 @@ export class ChartComponent implements OnInit {
 
   public chart: Chart;
 
-  constructor() { }
+  constructor(private chartService: ChartService) { }
 
   ngOnInit(): void {
+    this.chartService
+        .chartDataSubject
+        .subscribe((data) => this.initChart(data));
+  }
+
+  private initChart({labels, data}: any): void {
     this.chart = new Chart('canvas', {
       type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels,
         datasets: [{
-          data: [12, 19, 3, 5, 2, 3],
+          data,
           borderWidth: 3
         }]
       },
@@ -39,7 +49,7 @@ export class ChartComponent implements OnInit {
         maintainAspectRatio: false,
         scales: {
           y: {
-            beginAtZero: true,
+            // beginAtZero: true,
             title: {
               display: true,
               text: 'Number of Gists'
