@@ -25,6 +25,8 @@ export class StatisticsService {
   public readonly resultCount = 3000;
   public readonly itemsPerPage = 10;
   public readonly delimiterStepSize = 5;
+  // pass these subjects to chart component instance as dataSubscriber,
+  // chart component will subscribe to it as a data update source.
   public gistsChartDataSubject: Subject<ChartData> = new Subject();
   public gistsFileChartDataSubject: Subject<ChartData> = new Subject();
 
@@ -85,7 +87,7 @@ export class StatisticsService {
       dataSet.push(numberOfFilesInTheCurrentSetOfData);
     }
 
-    // as we are chunking data by periods of time rather than a given point of time,
+    // for gists files chart we are chunking data by periods of time rather than a given point of time,
     // the pair of the earliest record will miss, so append a 0 to have a symmetric data;
     dataSet.unshift(0);
 
