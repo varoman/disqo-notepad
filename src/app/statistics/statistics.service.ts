@@ -97,6 +97,8 @@ export class StatisticsService {
     delimiters.forEach((delimiter: number) => {
       const recordsInDelimiterTimeSpan = data
           .filter((item: Gist) => new Date(item.created_at).getTime() <= delimiter);
+      /* as mentioned above, we pretend to know how long data is, that's
+         why we mock it like this. */
       dataSet.push(this.resultCount - (this.itemsPerPage * page - recordsInDelimiterTimeSpan.length));
     });
     return dataSet;
@@ -115,8 +117,8 @@ export class StatisticsService {
       dataSet.push(numberOfFilesInTheCurrentSetOfData);
     }
 
-    // for gists files chart we are chunking data by periods of time rather than a given point of time,
-    // the pair of the earliest record will miss, so append a 0 to have a symmetric data;
+    /* for gists files chart we are chunking data by periods of time rather than a given point of time,
+     the pair of the earliest record will miss, so append a 0 to have a symmetric data; */
     dataSet.unshift(0);
 
     return dataSet;

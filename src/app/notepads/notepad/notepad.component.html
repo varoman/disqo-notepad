@@ -10,7 +10,9 @@
                        placeholder="My notepad title...">
             </div>
             <div>
-                <button type="button" class="btn btn-light border">View Stats</button>
+                <button type="button"
+                        (click)="onViewStats()"
+                        class="btn btn-light border">View Stats</button>
                 <button type="button" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-danger">Delete</button>
             </div>

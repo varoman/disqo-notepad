@@ -1,12 +1,19 @@
-<app-chart [dataSubscriber]="statisticsService.gistsChartDataSubject"
-           chartTitle="Gists Created"
-           (loadMoreGists)="onLoadMoreGists($event)"
-           numbersLabel="Number of Gists">
-</app-chart>
-<div class="mt-5">
-    <app-chart [dataSubscriber]="statisticsService.gistsFileChartDataSubject"
-               (loadMoreGists)="onLoadMoreGists($event, true)"
-               chartTitle="Files per Gist"
-               numbersLabel="File per Gist">
+<div>
+    <div class="close-stats mx-4 mt-3">
+        <button type="button"
+                (click)="onHideStats()"
+                class="btn btn-light border">Close Stats</button>
+    </div>
+    <app-chart [dataSubscriber]="statisticsService.gistsChartDataSubject"
+               chartTitle="Gists Created"
+               (loadMoreGists)="onLoadMoreGists($event)"
+               numbersLabel="Number of Gists">
     </app-chart>
+    <div class="mt-5">
+        <app-chart [dataSubscriber]="statisticsService.gistsFileChartDataSubject"
+                   (loadMoreGists)="onLoadMoreGists($event, true)"
+                   chartTitle="Files per Gist"
+                   numbersLabel="File per Gist">
+        </app-chart>
+    </div>
 </div>
