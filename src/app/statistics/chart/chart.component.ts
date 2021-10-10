@@ -49,10 +49,14 @@ export class ChartComponent implements OnInit {
         maintainAspectRatio: false,
         scales: {
           y: {
-            // beginAtZero: true,
             title: {
               display: true,
               text: 'Number of Gists'
+            }
+          },
+          x: {
+            grid: {
+              display: false,
             }
           }
         }
