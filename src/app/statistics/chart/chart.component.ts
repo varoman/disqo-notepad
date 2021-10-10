@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { Subject } from 'rxjs';
 import { ChartData } from './chartData.interface';
@@ -10,28 +16,43 @@ Chart.register(...registerables);
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements AfterViewInit {
 
   @Input() public chartTitle: string;
   @Input() public numbersLabel: string;
   @Input() public dataSubscriber: Subject<ChartData>;
+  @Output() public loadMoreGists = new EventEmitter<number>();
+  private page = 1;
   public chart: Chart;
   private readonly chartColor = '#39ACDC';
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.initChart();
     this.dataSubscriber
-        .subscribe((data) => this.initChart(data));
+        .subscribe((data) => this.updateChart(data));
   }
 
-  private initChart(chartData: {labels: string[], data: number[]}): void {
+  public onLoadMore() {
+    this.loadMoreGists.emit(++this.page);
+    this.chart.update();
+  }
+
+  private updateChart(chartData: ChartData) {
+    // add new elements to the left side of chart as they are older.
+    this.chart.data.labels?.unshift(...chartData.labels);
+    this.chart.data.datasets[0].data.unshift(...chartData.data);
+    this.chart.update();
+  }
+
+  private initChart(): void {
     this.chart = new Chart(this.chartTitle, {
       type: 'line',
       data: {
-        labels: chartData.labels,
+        labels: [],
         datasets: [{
-          data: chartData.data,
+          data: [],
           borderWidth: 3
         }]
       },

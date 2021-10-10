@@ -1,9 +1,11 @@
 <app-chart [dataSubscriber]="statisticsService.gistsChartDataSubject"
            chartTitle="Gists Created"
+           (loadMoreGists)="onLoadMoreGists($event)"
            numbersLabel="Number of Gists">
 </app-chart>
 <div class="mt-5">
     <app-chart [dataSubscriber]="statisticsService.gistsFileChartDataSubject"
+               (loadMoreGists)="onLoadMoreGists($event, true)"
                chartTitle="Files per Gist"
                numbersLabel="File per Gist">
     </app-chart>

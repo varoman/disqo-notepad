@@ -4,6 +4,8 @@
         <canvas [id]="chartTitle"></canvas>
     </div>
     <div class="text-center mt-2">
-        <button type="button" class="btn btn-light border">Load More</button>
+        <button type="button"
+                (click)="onLoadMore()"
+                class="btn btn-light border">Load More</button>
     </div>
 </div>

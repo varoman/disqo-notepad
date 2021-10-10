@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Gist } from '../shared/gist.interface';
 import { ChartData } from './chart/chartData.interface';
 import { Subject } from 'rxjs';
+import { GistsService } from '../shared/gists.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +25,16 @@ export class StatisticsService {
    */
   public readonly resultCount = 3000;
   public readonly itemsPerPage = 10;
-  public readonly delimiterStepSize = 5;
+  public readonly delimiterStepSize = 60;
   // pass these subjects to chart component instance as dataSubscriber,
   // chart component will subscribe to it as a data update source.
   public gistsChartDataSubject: Subject<ChartData> = new Subject();
   public gistsFileChartDataSubject: Subject<ChartData> = new Subject();
 
-  constructor() {
+  constructor(private gistsService: GistsService) {
   }
 
-
-  public prepareDataForChart(gists: Gist[], isFileChart?: boolean): ChartData {
+  public prepareDataForChart(gists: Gist[], isFileChart?: boolean, page = 1): ChartData {
     const {latestDelimiter, firstDelimiter} = StatisticsService
         .getFirstAndLastDelimitersFromCollection(gists);
 
@@ -49,27 +49,55 @@ export class StatisticsService {
     if (isFileChart) {
       sortedData = this.sortGistsFilesDataCollectionByBuckets(delimiters, gists);
     } else {
-      sortedData = this.sortGistsDataCollectionByBuckets(delimiters, gists);
-
+      sortedData = this.sortGistsDataCollectionByBuckets(delimiters, gists, page);
     }
+
     return {
       labels: StatisticsService.parseDelimiters(delimiters),
       data: sortedData,
     };
   }
 
+  public getGistsAndTriggerChartInit(): void {
+    this.gistsService
+        .getPublicGists({page: 1, per_page: this.itemsPerPage})
+        .subscribe((gists: Gist[]) => {
+          const gistsData = this.prepareDataForChart(gists, false);
+          const gistsFileData = this.prepareDataForChart(gists, true);
+          this.gistsChartDataSubject.next(gistsData);
+          this.gistsFileChartDataSubject.next(gistsFileData);
+        });
+  }
+
+  public loadMoreGistsAndTriggerChartUpdate(page: number, isTriggeredByFileChart?: boolean): void {
+    this.gistsService
+        .getPublicGists({page, per_page: this.itemsPerPage})
+        .subscribe((gists: Gist[]) => {
+          if (isTriggeredByFileChart) {
+            const gistsFileData = this.prepareDataForChart(gists, true);
+            this.gistsFileChartDataSubject.next(gistsFileData);
+          } else {
+            const gistsData = this.prepareDataForChart(gists, false, page);
+            this.gistsChartDataSubject.next(gistsData);
+          }
+        });
+  }
 
   /**
    * Bucket data according to amount of delimiters.
    * @param delimiters - collection of delimiters in unix epoch milliseconds.
    * @param data - collection of items to iterate against.
+   * @param page
    */
-  private sortGistsDataCollectionByBuckets(delimiters: number[], data: Gist[]): number[] {
+  private sortGistsDataCollectionByBuckets(delimiters: number[],
+                                           data: Gist[],
+                                           page = 1,
+  ): number[] {
     const dataSet: number[] = [];
     delimiters.forEach((delimiter: number) => {
       const recordsInDelimiterTimeSpan = data
           .filter((item: Gist) => new Date(item.created_at).getTime() <= delimiter);
-      dataSet.push(this.resultCount - (this.itemsPerPage - recordsInDelimiterTimeSpan.length));
+      dataSet.push(this.resultCount - (this.itemsPerPage * page - recordsInDelimiterTimeSpan.length));
     });
     return dataSet;
   }
@@ -117,7 +145,7 @@ export class StatisticsService {
   private generateDelimitersInMilliseconds(
       firstDelimiter: number,
       latestDelimiter: number,
-      ): number[] {
+  ): number[] {
 
     const delimiters = [];
     for (let i = latestDelimiter; i >= firstDelimiter; i -= this.delimiterStepSize * 1000) {
