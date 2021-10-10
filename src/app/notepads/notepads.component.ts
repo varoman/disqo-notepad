@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GistsService } from '../shared/gists.service';
-import { Notepad } from './notepad/notepad.interface';
+import { Gist } from '../shared/gist.interface';
 
 @Component({
   selector: 'app-notepads',
@@ -9,7 +9,7 @@ import { Notepad } from './notepad/notepad.interface';
 })
 export class NotepadsComponent implements OnInit {
 
-  public notepads: Notepad[];
+  public notepads: Gist[];
 
   constructor(private gistsService: GistsService) { }
 
@@ -20,7 +20,7 @@ export class NotepadsComponent implements OnInit {
   private getNotes(): void {
     this.gistsService
         .getGists()
-        .subscribe((notepads: Notepad[]) => this.notepads = notepads);
+        .subscribe((notepads: Gist[]) => this.notepads = notepads);
   }
 
 }

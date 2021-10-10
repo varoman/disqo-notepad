@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { GistsService } from '../../shared/gists.service';
-import { Notepad } from './notepad.interface';
+import { Gist } from '../../shared/gist.interface';
 
 @Component({
   selector: 'app-notepad',
@@ -10,7 +9,7 @@ import { Notepad } from './notepad.interface';
 })
 export class NotepadComponent implements OnInit {
 
-  @Input() public notepad: Notepad;
+  @Input() public notepad: Gist;
   public notepadForm: FormGroup;
 
   constructor(private fb: FormBuilder) { }

@@ -1,6 +1,6 @@
-import {Note} from '../note/note.model';
+import { Note } from '../notepads/note/note.model';
 
-export interface Notepad {
+export interface Gist {
 	description: string;
 	files: {[key: string]: Note};
 	created_at: string;

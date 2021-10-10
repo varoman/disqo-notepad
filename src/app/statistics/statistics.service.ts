@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Notepad } from '../notepads/notepad/notepad.interface';
+import { Gist } from '../shared/gist.interface';
 import { ChartData } from './chart/chartData.interface';
 import { Subject } from 'rxjs';
 
@@ -34,7 +34,7 @@ export class StatisticsService {
   }
 
 
-  public prepareDataForChart(gists: Notepad[], isFileChart?: boolean): ChartData {
+  public prepareDataForChart(gists: Gist[], isFileChart?: boolean): ChartData {
     const {latestDelimiter, firstDelimiter} = StatisticsService
         .getFirstAndLastDelimitersFromCollection(gists);
 
@@ -64,21 +64,21 @@ export class StatisticsService {
    * @param delimiters - collection of delimiters in unix epoch milliseconds.
    * @param data - collection of items to iterate against.
    */
-  private sortGistsDataCollectionByBuckets(delimiters: number[], data: Notepad[]): number[] {
+  private sortGistsDataCollectionByBuckets(delimiters: number[], data: Gist[]): number[] {
     const dataSet: number[] = [];
     delimiters.forEach((delimiter: number) => {
       const recordsInDelimiterTimeSpan = data
-          .filter((item: Notepad) => new Date(item.created_at).getTime() <= delimiter);
+          .filter((item: Gist) => new Date(item.created_at).getTime() <= delimiter);
       dataSet.push(this.resultCount - (this.itemsPerPage - recordsInDelimiterTimeSpan.length));
     });
     return dataSet;
   }
 
-  private sortGistsFilesDataCollectionByBuckets(delimiters: number[], data: Notepad[]): number[] {
+  private sortGistsFilesDataCollectionByBuckets(delimiters: number[], data: Gist[]): number[] {
     let dataSet: number[] = [];
     for (let i = 0; i < delimiters.length - 1; i ++) {
       const recordsInDelimiterTimeSpan = data
-          .filter((item: Notepad) => {
+          .filter((item: Gist) => {
             const created = new Date(item.created_at).getTime();
             return created > delimiters[i] && created <= delimiters[i + 1];
           });
@@ -94,7 +94,7 @@ export class StatisticsService {
     return dataSet;
   }
 
-  private numberOfFilesInTheCurrentSetOfData(gists: Notepad[]): number {
+  private numberOfFilesInTheCurrentSetOfData(gists: Gist[]): number {
     return gists
         .reduce((acc, curr) =>
             acc + Object.values(curr.files).length, 0);
@@ -126,7 +126,7 @@ export class StatisticsService {
     return delimiters.reverse();
   }
 
-  private static getFirstAndLastDelimitersFromCollection(data: Notepad[]):
+  private static getFirstAndLastDelimitersFromCollection(data: Gist[]):
       { latestDelimiter: number, firstDelimiter: number }  {
     /* represent the first and latest points on the timeline in milliseconds
        since unix epoch in the data collection.
