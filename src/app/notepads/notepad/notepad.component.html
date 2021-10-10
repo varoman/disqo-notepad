@@ -1,11 +1,12 @@
 <div class="px-4 notepad">
-    <form>
+    <form [formGroup]="notepadForm">
         <div class="d-flex justify-content-between align-items-end">
             <div class="form-group">
-                <label for="notepad_title">Notepad Title</label>
+                <label>Notepad Title</label>
                 <input type="text"
+                       name="title"
+                       formControlName="description"
                        class="form-control"
-                       id="notepad_title"
                        placeholder="My notepad title...">
             </div>
             <div>
@@ -17,7 +18,8 @@
         <div class="mt-3">
             <p class="secondary-title mb-2">My Notes</p>
             <app-note></app-note>
-            <app-note-list></app-note-list>
+            <app-note [note]="item.value" *ngFor="let item of notepad.files | keyvalue"></app-note>
         </div>
     </form>
 </div>
+<hr>

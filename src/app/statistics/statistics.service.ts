@@ -10,10 +10,6 @@ export class StatisticsService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getPublicGists(pagination: any): Observable<Object> {
-    return this.httpClient.get('gists/public', { params: pagination });
-  }
-
   /**
    *
    * @param delimiterStepSize {number} - number of seconds for every bucket of chart data.

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class APIInterceptor implements HttpInterceptor {
+export class GithubAPIInterceptor implements HttpInterceptor {
 
   constructor() {}
 
