@@ -21,9 +21,9 @@ export class StatisticsComponent implements OnInit {
 
     private getGists(): void {
         this.gistsService
-            .getPublicGists({page: 1, per_page: 10})
+            .getPublicGists({page: 1, per_page: this.statisticsService.itemsPerPage})
             .subscribe((res: any) => {
-                const chartData = this.statisticsService.prepareDataForChart(5, res);
+                const chartData = this.statisticsService.prepareDataForChart(res);
                 this.chartService.chartDataSubject.next(chartData);
             });
     }
