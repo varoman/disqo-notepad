@@ -1,9 +1,7 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { ChartService } from './chart.service';
+import { Subject } from 'rxjs';
+import { ChartData } from './chartData.interface';
 Chart.register(...registerables);
 
 
@@ -14,51 +12,60 @@ Chart.register(...registerables);
 })
 export class ChartComponent implements OnInit {
 
+  @Input() public chartTitle: string;
+  @Input() public numbersLabel: string;
+  @Input() public dataSubscriber: Subject<ChartData>;
   public chart: Chart;
+  private readonly chartColor = '#39ACDC';
 
-  constructor(private chartService: ChartService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.chartService
-        .chartDataSubject
+    this.dataSubscriber
         .subscribe((data) => this.initChart(data));
   }
 
-  private initChart({labels, data}: any): void {
-    this.chart = new Chart('canvas', {
+  private initChart(chartData: {labels: string[], data: number[]}): void {
+    this.chart = new Chart(this.chartTitle, {
       type: 'line',
       data: {
-        labels,
+        labels: chartData.labels,
         datasets: [{
-          data,
+          data: chartData.data,
           borderWidth: 3
         }]
       },
       options: {
         elements: {
           line: {
-            borderColor: '#83aee0',
-          }
+            borderColor: this.chartColor,
+          },
         },
         plugins: {
           legend: {
             display: false,
           }
         },
-        backgroundColor: '#83aee0',
+        backgroundColor: this.chartColor,
         maintainAspectRatio: false,
         scales: {
           y: {
             title: {
               display: true,
-              text: 'Number of Gists'
+              text: this.numbersLabel,
+            },
+            ticks: {
+              stepSize: 1,
             }
           },
           x: {
             grid: {
               display: false,
+            },
+            ticks: {
+              align: 'start',
             }
-          }
+          },
         }
       }
     });

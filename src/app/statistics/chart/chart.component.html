@@ -1,3 +1,9 @@
-<div class="chart-container">
-    <canvas id="canvas"></canvas>
+<div class="mt-4 pb-5">
+    <p class="text-center">{{chartTitle}}</p>
+    <div class="chart-container">
+        <canvas [id]="chartTitle"></canvas>
+    </div>
+    <div class="text-center mt-2">
+        <button type="button" class="btn btn-light border">Load More</button>
+    </div>
 </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatisticsService } from './statistics.service';
-import { ChartService } from './chart/chart.service';
-import {GistsService} from '../shared/gists.service';
+import { GistsService } from '../shared/gists.service';
 
 @Component({
     selector: 'app-statistics',
@@ -10,9 +9,8 @@ import {GistsService} from '../shared/gists.service';
 })
 export class StatisticsComponent implements OnInit {
 
-    constructor(private statisticsService: StatisticsService,
+    constructor(public statisticsService: StatisticsService,
                 private gistsService: GistsService,
-                private chartService: ChartService,
     ) { }
 
     ngOnInit(): void {
@@ -23,8 +21,10 @@ export class StatisticsComponent implements OnInit {
         this.gistsService
             .getPublicGists({page: 1, per_page: this.statisticsService.itemsPerPage})
             .subscribe((res: any) => {
-                const chartData = this.statisticsService.prepareDataForChart(res);
-                this.chartService.chartDataSubject.next(chartData);
+                const gistsData = this.statisticsService.prepareDataForChart(res);
+                const gistsFileData = this.statisticsService.prepareDataForChart(res, true);
+                this.statisticsService.gistsChartDataSubject.next(gistsData);
+                this.statisticsService.gistsFileChartDataSubject.next(gistsFileData);
             });
     }
 
