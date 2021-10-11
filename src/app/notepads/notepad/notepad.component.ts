@@ -42,7 +42,7 @@ export class NotepadComponent implements OnInit {
   private initForm(): void {
     const { required, maxLength } = Validation;
     this.notepadForm = this.fb.group({
-      description: ['', required, maxLength(255)],
+      description: ['', [required, maxLength(255)]],
     });
   }
 

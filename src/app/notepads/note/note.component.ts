@@ -34,8 +34,8 @@ export class NoteComponent implements OnInit, OnDestroy {
   private initForm(): void {
     const { required, maxLength } = Validation;
     this.noteForm = this.fb.group({
-      filename: ['', required, maxLength(255)],
-      content: ['', required, maxLength(1000)],
+      filename: ['', [required, maxLength(255)]],
+      content: ['', [required, maxLength(1000)]],
     });
   }
 
