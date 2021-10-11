@@ -30,6 +30,10 @@ export class NotepadComponent implements OnInit {
     }
   }
 
+  public onSave(): void {
+    alert('not implemented');
+  }
+
   public onDeleteNotepad(): void {
     this.gistsService.deleteGist(this.notepad.id)
         .subscribe(() => this.notepadsService.notepadsUpdateSubject.next());

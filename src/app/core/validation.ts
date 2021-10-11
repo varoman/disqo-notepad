@@ -1,12 +1,9 @@
-import {AbstractControl, ValidatorFn} from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export class Validation {
 
 	public static required({ value }: AbstractControl) {
-		if (value) {
-			return null;
-		}
-		return { required: { message: Validation.messages.required } };
+		return value ? null : { required: { message: Validation.messages.required } };
 	}
 
 	public static maxLength(maxLength: number = 255): ValidatorFn {

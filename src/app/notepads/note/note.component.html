@@ -22,6 +22,7 @@
     </div>
     <button *ngIf="!note"
             type="button"
+            (click)="onAddNote()"
             class="btn btn-success mt-2">Add
     </button>
 </form>

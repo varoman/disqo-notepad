@@ -10,3 +10,31 @@ html {
 body {
   background-color: $body-background-color !important;
 }
+
+.btn-success {
+  background-color: $success-color;
+}
+
+.btn-danger {
+  background-color: $alert-color;
+}
+
+.btn-primary {
+  background-color: $primary-color;
+}
+
+input, textarea, p, label {
+  color: $text-color !important;
+}
+
+::placeholder {
+  color: $text-color;
+}
+
+:-ms-input-placeholder {
+  color: $text-color;
+}
+
+::-ms-input-placeholder {
+  color: $text-color;
+}

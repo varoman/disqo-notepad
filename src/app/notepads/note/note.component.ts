@@ -31,6 +31,10 @@ export class NoteComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public onAddNote(): void {
+    alert('not implemented');
+  }
+
   private initForm(): void {
     const { required, maxLength } = Validation;
     this.noteForm = this.fb.group({
