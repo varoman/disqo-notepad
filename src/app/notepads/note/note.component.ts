@@ -3,6 +3,7 @@ import { GistsService } from '../../shared/gists.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Note } from './note.model';
 import { Subscription } from 'rxjs';
+import { Validation } from '../../core/validation';
 
 @Component({
   selector: 'app-note',
@@ -31,9 +32,10 @@ export class NoteComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
+    const { required, maxLength } = Validation;
     this.noteForm = this.fb.group({
-      filename: [''],
-      content: [''],
+      filename: ['', required, maxLength(255)],
+      content: ['', required, maxLength(1000)],
     });
   }
 

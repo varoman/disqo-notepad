@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Gist } from '../../shared/gist.interface';
 import { SharedService } from '../../shared/shared.service';
 import { GistsService } from '../../shared/gists.service';
-import {NotepadsService} from '../notepads.service';
+import { NotepadsService } from '../notepads.service';
+import { Validation } from '../../core/validation';
 
 @Component({
   selector: 'app-notepad',
@@ -39,8 +40,9 @@ export class NotepadComponent implements OnInit {
   }
 
   private initForm(): void {
+    const { required, maxLength } = Validation;
     this.notepadForm = this.fb.group({
-      description: [''],
+      description: ['', required, maxLength(255)],
     });
   }
 
