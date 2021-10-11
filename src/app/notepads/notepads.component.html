@@ -1,1 +1,3 @@
-<app-notepad *ngFor="let notepad of notepads" [notepad]="notepad" ></app-notepad>
+<app-notepad *ngFor="let notepad of notepads"
+             (deleteNotepad)="handleNotepadDataUpdates()"
+             [notepad]="notepad" ></app-notepad>

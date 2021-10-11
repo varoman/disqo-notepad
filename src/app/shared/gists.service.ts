@@ -25,4 +25,8 @@ export class GistsService {
   public getPublicGists(pagination: any): Observable<Gist[]> {
     return this.httpClient.get<Gist[]>('gists/public', { params: pagination });
   }
+
+  public deleteGist(id: string): Observable<any> {
+    return this.httpClient.delete(`gists/${id}`);
+  }
 }

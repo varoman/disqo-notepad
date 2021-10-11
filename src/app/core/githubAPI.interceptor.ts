@@ -21,9 +21,13 @@ export class GithubAPIInterceptor implements HttpInterceptor {
       'Accept': 'application/vnd.github.v3+json',
       'Authorization': environment.accessToken,
     });
+
+    const salt = (new Date()).getTime().toString();
     const options = {
       url: `${environment.apiEndpoint}/${request.url}`,
       headers,
+      // hack to prevent api request caching.
+      params: request.params.append('salt', salt),
     };
 
     return next.handle(request.clone(options));

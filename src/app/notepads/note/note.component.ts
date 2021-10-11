@@ -15,7 +15,7 @@ export class NoteComponent implements OnInit, OnDestroy {
   public noteForm: FormGroup;
   private subscriptions = new Subscription();
 
-  constructor(private notepadService: GistsService,
+  constructor(private gistsService: GistsService,
               private fb: FormBuilder,
               ) { }
 
@@ -39,7 +39,7 @@ export class NoteComponent implements OnInit, OnDestroy {
 
   private getNoteAndPopulateForm(): void {
     const subscription =
-    this.notepadService
+    this.gistsService
         .getGistFileContent(this.note.raw_url)
         .subscribe((res: string) => this.populateForm(res));
     this.subscriptions.add(subscription);

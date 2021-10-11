@@ -23,6 +23,10 @@ export class NotepadsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public handleNotepadDataUpdates() {
+    this.getNotes();
+  }
+
   private getNotes(): void {
     const subscription = this.gistsService
         .getGists()
