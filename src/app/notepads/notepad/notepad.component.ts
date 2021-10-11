@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Gist } from '../../shared/gist.interface';
 import { SharedService } from '../../shared/shared.service';
 import { GistsService } from '../../shared/gists.service';
+import {NotepadsService} from '../notepads.service';
 
 @Component({
   selector: 'app-notepad',
@@ -18,6 +19,7 @@ export class NotepadComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private sharedService: SharedService,
               private gistsService: GistsService,
+              private notepadsService: NotepadsService,
               ) { }
 
   ngOnInit(): void {
@@ -29,7 +31,7 @@ export class NotepadComponent implements OnInit {
 
   public onDeleteNotepad(): void {
     this.gistsService.deleteGist(this.notepad.id)
-        .subscribe(() => this.deleteNotepad.emit());
+        .subscribe(() => this.notepadsService.notepadsUpdateSubject.next());
   }
 
   public onViewStats(): void {
