@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { GistsService } from '../../shared/gists.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Note } from './note.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-note',
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss']
 })
-export class NoteComponent implements OnInit {
+export class NoteComponent implements OnInit, OnDestroy {
 
   @Input() public note: Note;
   public noteForm: FormGroup;
+  private subscriptions = new Subscription();
 
   constructor(private notepadService: GistsService,
               private fb: FormBuilder,
@@ -24,6 +26,10 @@ export class NoteComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   private initForm(): void {
     this.noteForm = this.fb.group({
       filename: [''],
@@ -32,9 +38,11 @@ export class NoteComponent implements OnInit {
   }
 
   private getNoteAndPopulateForm(): void {
+    const subscription =
     this.notepadService
         .getGistFileContent(this.note.raw_url)
         .subscribe((res: string) => this.populateForm(res));
+    this.subscriptions.add(subscription);
   }
 
   private populateForm(noteContent: string): void {

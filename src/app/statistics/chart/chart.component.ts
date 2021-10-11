@@ -3,10 +3,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   Output
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ChartData } from './chartData.interface';
 Chart.register(...registerables);
 
@@ -16,7 +17,7 @@ Chart.register(...registerables);
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements AfterViewInit {
+export class ChartComponent implements AfterViewInit, OnDestroy {
 
   @Input() public chartTitle: string;
   @Input() public numbersLabel: string;
@@ -25,13 +26,19 @@ export class ChartComponent implements AfterViewInit {
   private page = 1;
   public chart: Chart;
   private readonly chartColor = '#39ACDC';
+  private subscriptions = new Subscription();
 
   constructor() { }
 
   ngAfterViewInit(): void {
     this.initChart();
+    const subscription =
     this.dataSubscriber
         .subscribe((data) => this.updateChart(data));
+    this.subscriptions.add(subscription);
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public onLoadMore() {
