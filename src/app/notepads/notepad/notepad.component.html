@@ -1,6 +1,6 @@
 <div class="px-4 notepad">
     <form [formGroup]="notepadForm">
-        <div class="d-flex justify-content-between align-items-end">
+        <div class="d-md-flex justify-content-between align-items-end">
             <div class="form-group">
                 <label>Notepad Title</label>
                 <input type="text"
@@ -9,7 +9,7 @@
                        class="form-control"
                        placeholder="My notepad title...">
             </div>
-            <div>
+            <div class="mt-2 mt-md-0">
                 <button type="button"
                         (click)="onViewStats()"
                         class="btn btn-light border">View Stats</button>
